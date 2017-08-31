@@ -1370,21 +1370,7 @@ static int qpnp_rgb_set(struct qpnp_led_data *led)
 			if (rc < 0) {
 				dev_err(&led->spmi_dev->dev,
 					"pwm config failed\n");
-				return /*
-				 * Write 0x80 to MODULE_ENABLE before writing
-				 * 0xE0 in order to avoid a hardware bug caused
-				 * by register value going from 0x00 to 0xE0.
-				 */
-				rc = qpnp_led_masked_write(led,
-					FLASH_ENABLE_CONTROL(led->base),
-					FLASH_ENABLE_MODULE_MASK,
-					FLASH_ENABLE_MODULE);
-				if (rc) {
-					dev_err(&led->spmi_dev->dev,
-						"Enable reg write failed(%d)\n",
-						rc);
-					return rc;
-				}
+                                return rc;
 			}
 		}
 		rc = qpnp_led_masked_write(led,
