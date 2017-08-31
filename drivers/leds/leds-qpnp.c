@@ -979,6 +979,22 @@ static int qpnp_flash_set(struct qpnp_led_data *led)
 					rc);
 					goto error_flash_set;
 				}
+				
+				/*
+				 * Write 0x80 to MODULE_ENABLE before writing
+				 * 0xE0 in order to avoid a hardware bug caused
+				 * by register value going from 0x00 to 0xE0.
+				 */
+				rc = qpnp_led_masked_write(led,
+					FLASH_ENABLE_CONTROL(led->base),
+					FLASH_ENABLE_MODULE_MASK,
+					FLASH_ENABLE_MODULE);
+				if (rc) {
+					dev_err(&led->spmi_dev->dev,
+						"Enable reg write failed(%d)\n",
+						rc);
+					return rc;
+				}
 			}
 
 			rc = qpnp_led_masked_write(led,
@@ -1331,8 +1347,7 @@ static int qpnp_kpdbl_set(struct qpnp_led_data *led)
 	}
 
 	led->kpdbl_cfg->pwm_cfg->blinking = false;
-
-	qpnp_dump_regs(led, kpdbl_debug_regs, ARRAY_SIZE(kpdbl_debug_regs));
+        qpnp_dump_regs(led, kpdbl_debug_regs, ARRAY_SIZE(kpdbl_debug_regs));
 
 	return 0;
 }
@@ -1355,7 +1370,21 @@ static int qpnp_rgb_set(struct qpnp_led_data *led)
 			if (rc < 0) {
 				dev_err(&led->spmi_dev->dev,
 					"pwm config failed\n");
-				return rc;
+				return /*
+				 * Write 0x80 to MODULE_ENABLE before writing
+				 * 0xE0 in order to avoid a hardware bug caused
+				 * by register value going from 0x00 to 0xE0.
+				 */
+				rc = qpnp_led_masked_write(led,
+					FLASH_ENABLE_CONTROL(led->base),
+					FLASH_ENABLE_MODULE_MASK,
+					FLASH_ENABLE_MODULE);
+				if (rc) {
+					dev_err(&led->spmi_dev->dev,
+						"Enable reg write failed(%d)\n",
+						rc);
+					return rc;
+				}
 			}
 		}
 		rc = qpnp_led_masked_write(led,
@@ -1491,10 +1520,7 @@ static int __devinit qpnp_led_set_max_brightness(struct qpnp_led_data *led)
 		led->cdev.max_brightness = RGB_MAX_LEVEL;
 		break;
 	case QPNP_ID_LED_MPP:
-		if (led->mpp_cfg->pwm_mode == MANUAL_MODE)
-			led->cdev.max_brightness = led->max_current;
-		else
-			led->cdev.max_brightness = MPP_MAX_LEVEL;
+                led->cdev.max_brightness = MPP_MAX_LEVEL;
 		break;
 	case QPNP_ID_KPDBL:
 		led->cdev.max_brightness = KPDBL_MAX_LEVEL;
