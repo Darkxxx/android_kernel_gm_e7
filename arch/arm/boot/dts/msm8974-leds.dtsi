@@ -45,7 +45,8 @@
 			qcom,max-current = <12>;
 			qcom,default-state = "off";
 			qcom,id = <3>;
-			linux,default-trigger = "battery-charging";
+			linux,default-trigger =
+			        "battery-charging";
                 };
 
 		qcom,rgb_1 {
@@ -177,7 +178,7 @@
 		};
 
 		pm8941_torch: qcom,flash_torch {
-			qcom,max-current = <200>;
+			qcom,max-current = <255>;
 			qcom,default-state = "off";
 			qcom,headroom = <0>;
 			qcom,startup-dly = <1>;
@@ -186,7 +187,7 @@
 			label = "flash";
 			qcom,id = <2>;
 			linux,name = "led:flash_torch";
-			qcom,current = <200>;   //by Gionee zhaocq 20140606 for CR01273423
+			qcom,current = <255>;   //by Gionee zhaocq 20140606 for CR01273423
 			qcom,torch-enable;
 		};
 	};
