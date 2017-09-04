@@ -19,7 +19,7 @@
 		qcom,flash-type = <1>;
 		qcom,torch-source = <&pm8941_torch>;
 		qcom,flash-source = <&pm8941_flash0 &pm8941_flash1>;
-	};
+        };
 };
 
 &cci {
@@ -142,8 +142,7 @@ qcom,camera@201 {
 		qcom,csid-sd-index = <0>;
 		qcom,actuator-src = <&actuator0>;
                 qcom,eeprom-src = <&eeprom0>;
-                qcom,flash-type = <0>;
-		qcom,led-flash-src = <&led_flash0>;
+                qcom,led-flash-src = <&led_flash0>;
 		qcom,mount-angle = <90>;
 		qcom,sensor-name = "gn_sunny_ov16825";
 		qcom,vdd-cx-supply = <&pm8841_s2>;
@@ -191,8 +190,7 @@ qcom,camera@203 {
 		qcom,slave-id = <0x6c 0x300A 0x4688>;
 		qcom,csiphy-sd-index = <2>;
 		qcom,csid-sd-index = <0>;
-		qcom,flash-type = <0>;
-		qcom,mount-angle = <270>;
+                qcom,mount-angle = <270>;
 		qcom,sensor-name = "gn_sunny_ov4688";
 		qcom,vdd-cx-supply = <&pm8841_s2>;
 		qcom,vdd-cx-name = "qcom,vdd-cx";
@@ -217,7 +215,7 @@ qcom,camera@203 {
 		qcom,gpio-req-tbl-label = "CAMIF_MCLK",
 					  "CAM_RESET1",
 					  "CAM_STANDBY",
-					   "CAM_VDIG";
+					  "CAM_VDIG";
 		qcom,gpio-set-tbl-num = <2 1 1 >;
 		qcom,gpio-set-tbl-flags = <2 0 2>;
 		qcom,gpio-set-tbl-delay = <10000 1000 4000>;
